@@ -10,7 +10,6 @@ public class Ball {
     int size;
     int xSpeed;
     int ySpeed;
-    Color color = Color.WHITE;
 
     public Ball(int x, int y, int size, int xSpeed, int ySpeed) {
         this.x = x;
@@ -32,16 +31,12 @@ public class Ball {
     }
 
     public void draw(ShapeRenderer shape) {
-        shape.setColor(color);
         shape.circle(x, y, size);
     }
 
     public void checkCollision(Paddle paddle) {
         if (collidesWith(paddle)) {
-            color = Color.GREEN;
             ySpeed = -ySpeed;
-        } else {
-            color = Color.WHITE;
         }
     }
 
