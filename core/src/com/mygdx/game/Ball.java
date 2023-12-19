@@ -40,10 +40,33 @@ public class Ball {
         }
     }
 
+    public void checkCollision(Block block) {
+        if (collidesWith(block)) {
+            ySpeed = -ySpeed;
+            block.isDestroyed = true;
+        }
+    }
+
     private boolean collidesWith(Paddle paddle) {
         // Find the closest point to the ball on the paddle
         int closestX = clamp(this.x, paddle.xPosition, paddle.xPosition + paddle.width);
         int closestY = clamp(this.y, paddle.yPosition, paddle.yPosition + paddle.height);
+
+        // Calculate the distance between the ball's center to the closest point
+        int distanceX = this.x - closestX;
+        int distanceY = this.y - closestY;
+
+        // Calculate the squared distance (avoids the need for square root)
+        int distanceSquared = distanceX * distanceX + distanceY * distanceY;
+
+        // Return True if the distance squared is less than the ball's radius squared
+        return distanceSquared <= (this.size * this.size);
+    }
+
+    private boolean collidesWith(Block block) {
+        // Find the closest point to the ball on the block
+        int closestX = clamp(this.x, block.x, block.x + block.width);
+        int closestY = clamp(this.y, block.y, block.y + block.height);
 
         // Calculate the distance between the ball's center to the closest point
         int distanceX = this.x - closestX;
