@@ -6,24 +6,23 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class MyGdxGame extends ApplicationAdapter {
 	ShapeRenderer shape;
 	Ball ball;
 	Paddle paddle;
-	ArrayList<Block> blocks = new ArrayList<>();
+	ArrayList<Brick> bricks = new ArrayList<>();
 
 	@Override
 	public void create() {
 		int blockWidth = 63;
 		int blockHeight = 20;
 		shape = new ShapeRenderer();
-		ball = new Ball(10, 10, 10, 5, 10);
-		paddle = new Paddle(150, 10, 0);
-		for (int y = Gdx.graphics.getHeight() / 2; y  < Gdx.graphics.getHeight(); y += blockHeight + 10) {
+		ball = new Ball(25, 25, 10, 5, 10);
+		paddle = new Paddle(150, 10);
+		for (int y = (int) (Gdx.graphics.getHeight() * 0.7); y  < Gdx.graphics.getHeight(); y += blockHeight + 5) {
 			for (int x = 0; x < Gdx.graphics.getWidth(); x += blockWidth + 10) {
-				blocks.add(new Block(x, y, blockWidth, blockHeight));
+				bricks.add(new Brick(x, y, blockWidth, blockHeight));
 			}
 		}
 	}
@@ -37,14 +36,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		ball.checkCollision(paddle);
 		paddle.update();
 		paddle.draw(shape);
-		for (Block block : blocks) {
-			block.draw(shape);
-			ball.checkCollision(block);
+		for (Brick brick : bricks) {
+			brick.draw(shape);
+			ball.checkCollision(brick);
 		}
-		for (int i = 0; i < blocks.size(); i++) {
-			Block b = blocks.get(i);
-			if (b.isDestroyed) {
-				blocks.remove(b);
+		for (int i = 0; i < bricks.size(); i++) {
+			Brick b = bricks.get(i);
+			if (b.isDestroyed()) {
+				bricks.remove(b);
 				i--;
 			}
 		}
